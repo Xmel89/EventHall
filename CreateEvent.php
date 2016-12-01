@@ -25,5 +25,4 @@ exit();}
 	$create = $pdo->query("INSERT INTO `Hall`.`event` (`name`, `description`, `date`, `time`, `t_low`, `t_mid`, `t_high`) 
 	VALUES ('$e_nameevent', '$e_descrip', '$e_date', '$e_time', '$e_tlow', '$e_tmid', '$e_thigh');");}
 echo "Концерт создан"; 
-var_dump ($e_downimg); 
 ?>

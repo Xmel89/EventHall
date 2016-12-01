@@ -2,41 +2,47 @@
 try{
 	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
 	$pdo->exec('SET NAMES "utf8"');
+	$pdo->query('SET NAMES "utf8"');
 }catch(PDOException $e){
-	echo "Возникла ошибка соединения с БД ".$e->getMessage();
+	echo "Р’РѕР·РЅРёРєР»Р° РѕС€РёР±РєР° СЃРѕРµРґРёРЅРµРЅРёСЏ СЃ Р‘Р” ".$e->getMessage();
 exit();}
 $query = $pdo->query("SELECT COUNT(*) FROM event");
 	$count_ev = $query->fetch();
-	var_dump ($count_ev[0]) ;
-echo "<!DOCTYPE html>
+	$query = $pdo->query("SELECT * FROM `event` WHERE date = (SELECT MAX(date) FROM event)");
+$near_date = $query->fetch();
+$img_src = '/img/'.$near_date[1];
+
+	?>
+	<!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-">
-		<link href="style.css" rel="stylesheet">
-		<title>Концертный зал</title>
+		<meta charset='utf-'>
+		<link href='style.css' rel='stylesheet'>
+		<title>РљРѕРЅС†РµСЂС‚РЅС‹Р№ Р·Р°Р»</title>
 	</head>
 	<body>
 		<header>
-			<h1>Концертный зал</h1>
+			<h1>РљРѕРЅС†РµСЂС‚РЅС‹Р№ Р·Р°Р»</h1>
 		</header>
-		<table cellpadding="14">
+		<table cellpadding='14'>
 			<tr>
 				<td rowspan='4'>
-					<h2>Ичунь-Пань, концерт скрипки и фортепиано</h2>
-					<img src='scrip.jpg'></img>
+					<h2><?php echo"$near_date[1]"?></h2>
+					<?php echo "<img src='$img_src'></img>";?>
 				</td>
-				<td>Дата</td>
+				<td><?php echo"$near_date[3] РІ "; echo"$near_date[4]"; ?>  </td>
 			</tr>
 			<tr>
-				<td>Цена от</td>
+				<td>Р¦РµРЅР° РѕС‚ <?php echo"$near_date[5]"?> СЂСѓР± </td>
 			</tr>
 			<tr>
-				<td>до</td>
+				<td>РґРѕ <?php echo"$near_date[7]" ?> СЂСѓР±</td>
 			</tr>
 			<tr>
 				<td>
-				<a href='buy.html' name="b_buy">Купить билет</a>
+				<a href='buy.html' name='b_buy'>РљСѓРїРёС‚СЊ Р±РёР»РµС‚</a>
 				</td>
 			</tr>
-		</table>"
-	?>
+		</table>
+	</body>	
+</html>
