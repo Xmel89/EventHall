@@ -1,0 +1,40 @@
+h1 {
+	text-align : center;
+	font-family : "Comic Sans MS";
+}
+h2 {
+	text-align : center;
+	font-family : "Comic Sans MS";
+}
+div{
+	text-align : center;
+}
+table {
+	width: 50%; /* Ширина таблицы */
+    border: 1px solid black; /* Рамка вокруг таблицы */
+    margin: auto;
+    border-collapse: collapse;
+}
+
+td {
+    border: 2px solid lightgray;
+}
+img{
+	margin: auto;
+}
+textarea {
+	width: 4px;
+	height: 4px;
+}
+.blat{
+	background: green;
+}
+.mid{
+	background: yellow;
+}
+.bitch{
+	background: red;
+}
+.rip{
+	background: orange;
+}
