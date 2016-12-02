@@ -10,9 +10,10 @@ $query = $pdo->query("SELECT COUNT(*) FROM event");
 	$count_ev = $query->fetch();
 	$query = $pdo->query("SELECT * FROM `event` WHERE date = (SELECT MAX(date) FROM event)");
 $near_date = $query->fetch();
-$img_src = '/img/'.$near_date[1];
-
-	?>
+$img_src = '/img/'.$near_date[3].$near_date[4];
+$img_src =substr("$img_src",0,17);
+$time= substr("$near_date[4]",0,5);
+?>
 	<!DOCTYPE html>
 <html>
 	<head>
@@ -28,12 +29,12 @@ $img_src = '/img/'.$near_date[1];
 			<tr>
 				<td rowspan='4'>
 					<h2><?php echo"$near_date[1]"?></h2>
-					<?php echo "<img src='$img_src'></img>";?>
+					<div class = "imgCenter"><?php echo "<img src='$img_src', alt='картинка с изображением'></img>";?></div>
 				</td>
-				<td><?php echo"$near_date[3] в "; echo"$near_date[4]"; ?>  </td>
+				<td><?php echo"$near_date[3] в "; echo"$time"; ?>  </td>
 			</tr>
 			<tr>
-				<td>Цена от <?php echo"$near_date[5]"?> руб </td>
+				<td>Цены на билет:</br> от <?php echo"$near_date[5]"?> руб </td>
 			</tr>
 			<tr>
 				<td>до <?php echo"$near_date[7]" ?> руб</td>
