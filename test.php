@@ -1,4 +1,3 @@
-	$query = $pdo->query("SELECT * FROM `event` WHERE date = (SELECT MAX(date) FROM event)");
 	<!DOCTYPE html>
 <html>
 	<head>
