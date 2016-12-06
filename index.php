@@ -7,6 +7,9 @@
 	</head>
 	<body>
 		<header>
+		<?
+		$H = date('H')-1;//верное время
+		echo date("Y-m-d {$H}:i e");?>
 			<h1>Концертный зал</h1>
 		</header>
 <?php 
@@ -21,19 +24,20 @@ $query = $pdo->query("SELECT COUNT(*) FROM event");
 	$count_ev = $query->fetch();
 	//$query = $pdo->query("SELECT * FROM `event`");
 	//$near_event = $query->fetch();
-	$query ="SELECT * FROM `event` ORDER BY `event`.`date` ASC, `event`.`time` ASC";
+	$query ="SELECT * FROM `event` WHERE date>=CURRENT_DATE AND time>CURRENT_TIME ORDER BY `event`.`date` ASC, `event`.`time` ASC";
 	$near_event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
 	$i=0;
 	while($i<=4){
 $near_date = $near_event[$i];
 $img_src = '/img/'.$near_date[date].$near_date[time];
 $img_src =substr("$img_src",0,17);
+$img_src .='.jpg';
 $time= substr("$near_date[time]",0,5);
 echo "<table cellpadding='14'>
 			<tr>
 				<td rowspan='4'>
 					<h2>{$near_date['name']}</h2>
-					<div class = 'imgCenter'><img src='{$img_src}', alt='картинка с изображением'></img></div>
+					<div class = 'imgCenter'><img src='{$img_src}' alt='картинка с изображением' width = '300' height='200'></img></div>
 				</td>
 				<td>{$near_date['date']} в {$time} </td>
 			</tr>
@@ -45,7 +49,7 @@ echo "<table cellpadding='14'>
 			</tr>
 			<tr>
 				<td>
-				<a href='buy.html' name='b_buy'>Купить билет</a>
+				<a href='testbuy.php' name='{$near_date['name']}'>Купить билет</a>
 				</td>
 			</tr>
 		</table>
