@@ -6,6 +6,10 @@ h2 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
+p {
+	text-indent: 100px;
+	width: 500px;
+}
 div{
 	text-align : center;
 }

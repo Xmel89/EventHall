@@ -1,6 +1,8 @@
 <?php 
-function identif($eb)
-{return $eb;}
+$e_name = $_POST['n'];
+$img_src = $_POST['i'];
+$near_date = explode("," , $e_name);
+$time= substr("$near_date[4]",0,5);
 echo "
 <!DOCTYPE html>
 <html>
@@ -13,23 +15,22 @@ echo "
 		<header>
 			<h1>Касса</h1>
 		</header>
-		<table cellpadding='14'>
+		<table>
 			<tr>
-				<td rowspan='4'>
-					<p>26 ноября 18:00<div align='right'><a href='index.html' align='right' name='b_buy'>на главную</a></div></p>
-					<h2>Ичунь-Пань, концерт скрипки и фортепиано</h2>
-					<img src='icpan.jpg'></img>
-					<p>XI Международный конкурс имени П.И. Чайковского. Скрипачка Ичунь Пань (КНР, третья премия) во время выступления. Большой зал Московской государственной консерватории им. П.И. Чайковского.
- 9 июня-1 июля 1998 года.</p>
-				</td>
+				
+					<p>{$near_date[3]} в {$time}<div align='right'><a href='index.php' align='right' name='b_buy'>на главную</a></div></p>
+					<h2>{$near_date[1]}</h2>
+				<tr >	<td ><div class = 'imgCenter'><img src='{$img_src}' alt='картинка с изображением' width = '600' height='400'></img></div>
+					<div><p>{$near_date[2]}</p></div></td >
+				</tr>
 			</tr>
 		</table>
 		<div><p>Выберите место, а затем нажмите кнопку 'Купить'</p>
 		<table cellpadding='2'>
 			<tr>
-			<td class='blat'>билет за 5000 руб</td>
-			<td class='mid'>билет за 1500 руб</td>
-			<td class='bitch'>билет за 500 руб</td>
+			<td class='blat'><div>билет за {$near_date[5]} руб</div></td>
+			<td class='mid'>билет за {$near_date[6]} руб</td>
+			<td class='bitch'>билет за {$near_date[7]} руб</td>
 			<td class='rip'>занятые места</td>
 			</tr><input type='submit' name='f_submit' value='Купить'/></div>
 			</table>

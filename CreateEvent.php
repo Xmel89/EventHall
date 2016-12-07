@@ -2,6 +2,7 @@
 try{
 	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
 	$pdo->exec('SET NAMES "utf8"');
+	$pdo->query('SET NAMES "utf8"');
 }catch(PDOException $e){
 	echo "Возникла ошибка соединения с БД ".$e->getMessage();
 exit();}
@@ -25,6 +26,7 @@ exit();}
 	$e_thigh = $_POST['ticket_high'];
 	$create = $pdo->query("INSERT INTO `Hall`.`event` (`name`, `description`, `date`, `time`, `t_low`, `t_mid`, `t_high`) 
 	VALUES ('$e_nameevent', '$e_descrip', '$e_date', '$e_time', '$e_tlow', '$e_tmid', '$e_thigh');");
+	//Создание зала для БД
 	$row=1;
 	$colum=1;
 	$ev_hall = array();
@@ -36,9 +38,5 @@ exit();}
 		$row++;
 	}
  var_dump($ev_hall);
- var_dump($row);
  echo "Концерт создан";}
-	//$create_hall = $pdo->query
-	
- 
 ?>

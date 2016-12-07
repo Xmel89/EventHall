@@ -22,8 +22,6 @@ try{
 exit();}
 $query = $pdo->query("SELECT COUNT(*) FROM event");
 	$count_ev = $query->fetch();
-	//$query = $pdo->query("SELECT * FROM `event`");
-	//$near_event = $query->fetch();
 	$query ="SELECT * FROM `event` WHERE date>=CURRENT_DATE AND time>CURRENT_TIME ORDER BY `event`.`date` ASC, `event`.`time` ASC";
 	$near_event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
 	$i=0;
@@ -33,6 +31,7 @@ $img_src = '/img/'.$near_date[date].$near_date[time];
 $img_src =substr("$img_src",0,17);
 $img_src .='.jpg';
 $time= substr("$near_date[time]",0,5);
+$str_nd=implode ("," , $near_date);
 echo "<table cellpadding='14'>
 			<tr>
 				<td rowspan='4'>
@@ -48,8 +47,11 @@ echo "<table cellpadding='14'>
 				<td>до {$near_date['t_high']} руб</td>
 			</tr>
 			<tr>
-				<td>
-				<a href='testbuy.php' name='{$near_date['name']}'>Купить билет</a>
+				<td><form method='post' action='testbuy.php' enctype='multipart/form-data' content = $n>
+				<input type='submit' name='buy' value='Купить билет'>
+				<input type='hidden' name='n' value='$str_nd'>
+				<input type='hidden' name='i' value='$img_src'>
+				</form>
 				</td>
 			</tr>
 		</table>
