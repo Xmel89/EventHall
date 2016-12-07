@@ -6,12 +6,15 @@ h2 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
-p {
-	text-indent: 100px;
-	width: 500px;
-}
 div{
 	text-align : center;
+	white-space : normal;
+	width : 200px;
+}
+p{
+	text-indent: 50px;
+	white-space : normal;
+	width : 600px;
 }
 table {
 	width: 50%; /* Ўирина таблицы */
@@ -22,6 +25,8 @@ table {
 
 td {
     border: 2px solid lightgray;
+	white-space : normal;
+	width : 200px;
 }
 img{
 	margin: auto;

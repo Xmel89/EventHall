@@ -31,7 +31,7 @@ $img_src = '/img/'.$near_date[date].$near_date[time];
 $img_src =substr("$img_src",0,17);
 $img_src .='.jpg';
 $time= substr("$near_date[time]",0,5);
-$str_nd=implode ("," , $near_date);
+$str_nd=implode ("///" , $near_date);
 echo "<table cellpadding='14'>
 			<tr>
 				<td rowspan='4'>
