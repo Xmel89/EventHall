@@ -17,7 +17,7 @@ if ($auth==true){
 			<tr>
 				<td rowspan='6'>
 					<p><input style='height: 30px; width: 400px' type='text' name='name_event' placeholder='Название концерта' maxlength='200' required /></p>
-					<textarea style='height: 150px; width: 400px' name='description' placeholder='Описание концерта' maxlength='600' required ></textarea>
+					<textarea style='height: 150px; width: 400px' name='description' placeholder='Описание концерта' maxlength='10000' required ></textarea>
 					<p>Загрузить картинку <input type='file' accept='image/jpeg' name='downimg'/></p>
 				</td>
 				<td>Дата и время</br><input type='date' name='date' placeholder='дата' required /><input type='time' name='time' placeholder='дата' required /></td>

@@ -37,6 +37,11 @@ exit();}
 		$colum=1;
 		$row++;
 	}
- var_dump($ev_hall);
+$str_evhall=implode ("///" , $ev_hall);
+$primkey=$e_date.' '.$e_time.':00';
+$create = $pdo->query("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
+VALUES ('$primkey' , '$str_evhall');");
+	//var_dump($primkey);
+	//var_dump($str_evhall);
  echo "Концерт создан";}
 ?>

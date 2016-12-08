@@ -6,15 +6,13 @@ h2 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
+.p {
+	text-indent: 100px;
+	width: 600px;
+	padding: 0px 100px 0px 100px
+}
 div{
 	text-align : center;
-	white-space : normal;
-	width : 200px;
-}
-p{
-	text-indent: 50px;
-	white-space : normal;
-	width : 600px;
 }
 table {
 	width: 50%; /* Ширина таблицы */
@@ -25,8 +23,6 @@ table {
 
 td {
     border: 2px solid lightgray;
-	white-space : normal;
-	width : 200px;
 }
 img{
 	margin: auto;
@@ -48,5 +44,8 @@ textarea {
 	background: orange;
 }
 .imgCenter{
-	text-align:center;
+	text-align :center;
+	width: 600px; /* Ширина элемента в пикселах */
+    padding: 20px 100px 10px 100px; /* Поля вокруг текста */
+     /* Выравниваем по центру */
 }
