@@ -37,7 +37,7 @@ exit();}
 		$colum=1;
 		$row++;
 	}
-$str_evhall=implode ("///" , $ev_hall);
+$str_evhall=implode ("/" , $ev_hall);
 $primkey=$e_date.' '.$e_time.':00';
 $create = $pdo->query("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
 VALUES ('$primkey' , '$str_evhall');");

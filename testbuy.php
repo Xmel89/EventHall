@@ -38,9 +38,53 @@ echo "
 			<td class='bitch'>билет за {$near_date[7]} руб</td>
 			<td class='rip'>занятые места</td>
 			</tr>
-			
 			</table>
 			</body>
 			</html>
 			";
+try{
+	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
+	$pdo->exec('SET NAMES "utf8"');
+	$pdo->query('SET NAMES "utf8"');
+}catch(PDOException $e){
+	echo "Возникла ошибка соединения с БД ".$e->getMessage();
+exit();}
+$datetime=$near_date[3].' '.$near_date[4];
+$query = $pdo->query("SELECT free, engaged FROM `ev_hall` WHERE datetime = '$datetime'");
+$info_hall = $query->fetch();// получаем инфу о местах
+$free = explode('/',$info_hall[0]);
+$engaged= explode('/',$info_hall[1]);
+$i=0;
+while ($i < sizeof($free)){
+	$place=$free[$i]%100;
+	$row=(integer)($free[$i]/ 100);
+if ($row<=5){
+	$sort='blat';
+}
+elseif (5<$row and $row<=10){
+	$sort='mid';
+}
+else {$sort='bitch';}
+	if ($place==1){
+		if ($row==1){
+			echo "<table cellpadding='7'>
+			<tr>
+			<td colspan='21'><h1>Сцена с артистами</h1></td>
+			</tr>";}
+		echo"<tr class = '{$sort}'>
+			<td>ряд {$row}</td>
+			<td><p><input type='checkbox' name='a' value='0'> место {$place}</p></td>";}
+	else {
+		echo "<td><p><input type='checkbox' name='a' value='0'> место {$place}</p></td>";
+		if ($place==20){
+			echo"</tr>"; 
+			if ($row==15){
+			echo"</table>";
+		}}
+		}
+		$i++;
+}
+var_dump(sizeof($free));
+var_dump($row);
+var_dump($place);
 ?>

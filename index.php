@@ -9,7 +9,9 @@
 		<header>
 		<?
 		$H = date('H')-1;//верное время
-		echo date("Y-m-d {$H}:i e");?>
+		$true_time=date("Y-m-d {$H}:i e");
+		echo $true_time ?>
+		
 			<h1>Концертный зал</h1>
 		</header>
 <?php 
@@ -20,15 +22,43 @@ try{
 }catch(PDOException $e){
 	echo "Возникла ошибка соединения с БД ".$e->getMessage();
 exit();}
-	$query = $pdo->query("SELECT COUNT(*) FROM event");
-	$count_ev = $query->fetch();
-	$query ="SELECT * FROM `event` WHERE date>=CURRENT_DATE AND time>CURRENT_TIME ORDER BY `event`.`date` ASC, `event`.`time` ASC";
+	$query ="SELECT * FROM `event` WHERE date>=CURRENT_DATE ORDER BY `event`.`date` ASC, `event`.`time` ASC";
 	$near_event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
-	var_dump($count_ev);
-$i=0;
-var_dump ($i);
-	while($i<$count_ev[0]){
+	$i=0;
+$size_neev = sizeof($near_event);
+$no_event="<h3>Карнавала не будет</br>
+Все утонут в слезах</br>
+Я моторы в гондолах</br>
+Разбираю на части</br>
+
+Подметаешь лепестки</br>
+В иссохшихся площадях</br>
+Пытаешь гладить на ощупь</br>
+Ошарашенный страстью</br>
+
+Но карнавала не будет</br>
+Карнавала нет...
+</h3>";
+if ($size_neev==0) {
+echo "{$no_event}";
+}
+else { 
+if ($size_neev > 5){
+	$mn=true;
+	$max_neev = $size_neev;
+	$size_neev=5;
+}
+	while($i<$size_neev){
 $near_date = $near_event[$i];
+if ($near_date[date] == date("Y-m-d") and $near_date[time] < date("{$H}:i:s")){//выводит события время которых ещё не прошло (при нехвате скила sql)
+	if ($mn==true and $size_neev<max_neev){
+		$size_neev++;
+	}
+	$i++;
+	$no_ev=true;
+	continue;
+}
+$no_ev= false;
 $img_src = '/img/'.$near_date[date].$near_date[time];
 $img_src =substr("$img_src",0,17);
 $img_src .='.jpg';
@@ -40,7 +70,7 @@ echo "<table cellpadding='14'>
 					<h2>{$near_date['name']}</h2>
 					<div class = 'imgCenter'><img src='{$img_src}' alt='картинка с изображением' width = '300' height='200'></img></div>
 				</td>
-				<td>{$near_date['date']} в {$time} </td>
+				<td>{$near_date['date']}</br> в {$time} </td>
 			</tr>
 			<tr>
 				<td>Цены на билет:</br> от {$near_date['t_low']} руб </td>
@@ -60,5 +90,8 @@ echo "<table cellpadding='14'>
 	</body>	
 </html>";
 $i++;
+}}
+if ($no_ev==true){
+	echo $no_event;
 }
 ?>
