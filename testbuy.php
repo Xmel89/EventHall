@@ -56,8 +56,6 @@ $free = explode('/',$info_hall[0]);
 $engaged= explode('/',$info_hall[1]);
 $i=0;
 while ($i < sizeof($free)){
-	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a' value='{$free[i]}'> место {$place}</p></td>";
-	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='a' value='{$free[i]}'> место {$place}</p></td>";
 	$place=$free[$i]%100;
 	$row=(integer)($free[$i]/ 100);
 	
@@ -72,6 +70,9 @@ while ($i < sizeof($free)){
 	}
 	else {$sort='bitch';}
 	
+	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a' value='{$free[i]}'> место {$place}</p></td>";
+	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='a' value='{$free[i]}'> место {$place}</p></td>";
+	
 	if ($i==0 or $i%20==0){
 		if ($i==0){
 			echo "<table cellpadding='7'>
@@ -79,10 +80,18 @@ while ($i < sizeof($free)){
 			<td colspan='21'><h1>Сцена с артистами</h1></td>
 			</tr>";}
 		echo"<tr>
-			<td>ряд {$row}</td>
-			<td class = '{$sort}'><p><input type='checkbox' name='a' value='{$free[i]}'> место {$place}</p></td>";}
+			<td>ряд {$row}</td>";
+		if ($sort=='rip') {
+			echo "{$noceel}";
+		}
+		else {
+		echo "{$ceel}";}}
 	else {
-		echo "<td class = '{$sort}'><p><input type='checkbox' name='a' value='{$free[i]}'> место {$place}</p></td>";
+	if ($sort=='rip') {
+			echo "{$noceel}";
+		}
+		else {
+		echo "{$ceel}";};
 		if (($i+1)%20==0){
 			echo"</tr>"; 
 			if ($i==299){

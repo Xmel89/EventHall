@@ -1,4 +1,4 @@
-<?php 
+<?php
 if ($auth==true){
 	echo "
 <!DOCTYPE html>
@@ -43,6 +43,7 @@ if ($auth==true){
 			</tr>
 		</table>
 		</form>
+		<a href = 'adminhall.php'> Подтвердить покупку билета </a>
 	</body>
 </html>";
 }
