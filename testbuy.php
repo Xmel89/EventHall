@@ -1,8 +1,27 @@
 <?php 
+
+session_start();
+$action='buy_act.php';
+$buy='Забронировать';
+$a = false;
+$required = 'required';
+if (isset($_SESSION['name'])){
+	//echo "<form method='post' action='{$logout}'><input type='submit' name='logout' value='Logout'/></form>";
+	$buy='Подтвердить';
+	$a = true;
+	$action='accept.php';
+	$required =NULL;
+}
+
 $e_name = $_POST['n'];
 $img_src = $_POST['i'];
 $near_date = explode("///" , $e_name);
 $time= substr("$near_date[4]",0,5);
+$datetime=$near_date[3].' '.$near_date[4];
+$form = "<form method='post' action='{$action}'>
+<input type='email' name='e' placeholder='Ваш e-mail' {$required} >
+<input type='submit' name='f_submit' value='{$buy}'/>
+<input type='hidden' name='n' value='{$datetime}'>";
 echo "
 <!DOCTYPE html>
 <html>
@@ -28,9 +47,10 @@ echo "
 				</td>
 			</tr>
 		</table>
-		<p align='center'>Выберите место, а затем нажмите кнопку 'Купить'</p>
+		<p align='center'>Выберите место и введите e-mail, а затем нажмите кнопку \"{$buy}\"</p>
 		<div padding='auto'>
-		<input type='submit' name='f_submit' value='Купить'/></div>
+		{$form}
+		
 		<table cellpadding='5'>
 			<tr>
 			<td class='blat'>билет за {$near_date[5]} руб</td>
@@ -49,7 +69,6 @@ try{
 }catch(PDOException $e){
 	echo "Возникла ошибка соединения с БД ".$e->getMessage();
 exit();}
-$datetime=$near_date[3].' '.$near_date[4];
 $query = $pdo->query("SELECT free, engaged FROM `ev_hall` WHERE datetime = '$datetime'");
 $info_hall = $query->fetch();// получаем инфу о местах
 $free = explode('/',$info_hall[0]);
@@ -59,7 +78,7 @@ while ($i < sizeof($free)){
 	$place=$free[$i]%100;
 	$row=(integer)($free[$i]/ 100);
 	
-	if ((($free[$i]*10)%10)!=0) {
+	if ((($free[$i]*10)%10)!=0) {//определяем тип мест
 		$sort='rip';
 	}
 	elseif ($row <= 5) {
@@ -70,9 +89,11 @@ while ($i < sizeof($free)){
 	}
 	else {$sort='bitch';}
 	
-	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a' value='{$free[i]}'> место {$place}</p></td>";
-	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='a' value='{$free[i]}'> место {$place}</p></td>";
-	
+	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a[]' value='{$free[$i]}'> место {$place}</p></td>";
+	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> место {$place}</p></td>";
+	if ($a==true){
+		list ($ceel, $noceel)= array($noceel, $ceel);
+	}
 	if ($i==0 or $i%20==0){
 		if ($i==0){
 			echo "<table cellpadding='7'>
@@ -95,14 +116,11 @@ while ($i < sizeof($free)){
 		if (($i+1)%20==0){
 			echo"</tr>"; 
 			if ($i==299){
-			echo"</table>";
+			echo"</table></form></div>";
 				}
 			}
 		}
 		$i++;
 	};
-var_dump($place);
-var_dump($row);
-var_dump((integer)(408.1/ 100));
-var_dump((408.1*10)%10);
+	var_dump ($engaged);
 ?>

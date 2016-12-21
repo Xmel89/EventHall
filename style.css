@@ -19,7 +19,7 @@ div{
 	text-align : center;
 }
 table {
-	width: 50%; /* Ширина таблицы */
+	width: auto; /* Ширина таблицы */
     border: 1px solid black; /* Рамка вокруг таблицы */
     margin: auto;
     border-collapse: collapse;
@@ -36,20 +36,20 @@ textarea {
 	height: 4px;
 }
 .blat{
-	background: green;
-}
-.mid{
 	background: yellow;
 }
+.mid{
+	background: orange;
+}
 .bitch{
-	background: red;
+	background: green;
 }
 .rip{
-	background: orange;
+	background: red;
 }
 .imgCenter{
 	text-align :center;
 	width: 600px; /* Ширина элемента в пикселах */
-    padding: 20px 100px 10px 100px; /* Поля вокруг текста */
+    padding: 20px 70px 10px 70px; /* Поля вокруг текста */
      /* Выравниваем по центру */
 }

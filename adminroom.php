@@ -1,5 +1,6 @@
 <?php
-if ($auth==true){
+session_start();
+if (isset($_SESSION['name'])){
 	echo "
 <!DOCTYPE html>
 <html>
@@ -9,6 +10,7 @@ if ($auth==true){
 		<title>Админка</title>
 	</head>
 	<body>
+		<a href = 'index.php'> Подтвердить оплату билета </a>
 		<header>
 			<h1>Создание концерта</h1>
 		</header>
@@ -43,7 +45,6 @@ if ($auth==true){
 			</tr>
 		</table>
 		</form>
-		<a href = 'adminhall.php'> Подтвердить покупку билета </a>
 	</body>
 </html>";
 }

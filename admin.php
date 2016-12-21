@@ -1,4 +1,5 @@
 <?php
+session_start();
 $auth==false;
     try{
 	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
@@ -8,20 +9,23 @@ $auth==false;
 }	
 if (isset($_POST['ubmit'])){
 	$e_login = $_POST['login'];
-	$e_password = $_POST['password'];
+	$e_password = md5($_POST['password']);
 
 	$query = $pdo->query("SELECT pass FROM auth WHERE login='$e_login'");
 	$user_pass = $query->fetch();
-		if ($user_pass[0]==$e_password) {
-			$auth = true;
-			require('adminroom.php'); 
+		if (md5($user_pass[0])==$e_password) {
+			session_start();
+			$_SESSION ['name'] = $e_login;
 		}
 		else {
 			echo "<div>Неверный логин или пароль</div>";	
 		}
 	}
 
-if ($auth==false){
+if (isset($_SESSION ['name'])){
+	header('location:adminroom.php');exit;
+}
+else {
 	echo "
 <!DOCTYPE html>
 <html>
@@ -44,4 +48,5 @@ if ($auth==false){
 	</body>
 </html>";
 }
+
 ?>

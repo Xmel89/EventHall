@@ -1,9 +1,20 @@
+<?php 
+session_start();
+$buy='Купить билет';
+$h1='Концертный зал';
+if (isset($_SESSION['name'])){
+	$buy='Выбрать';
+	$h1='Выбери концерт:';
+	echo "<a href='adminroom.php'>К созданию концерта</a>";
+}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset='utf-'>
 		<link href='style.css' rel='stylesheet'>
-		<title>Концертный зал</title>
+		<title><?echo $h1;?></title>
 	</head>
 	<body>
 		<header>
@@ -12,7 +23,7 @@
 		$true_time=date("Y-m-d {$H}:i e");
 		echo $true_time ?>
 		
-			<h1>Концертный зал</h1>
+			<h1><?echo $h1;?></h1>
 		</header>
 <?php 
 try{
@@ -80,7 +91,7 @@ echo "<table cellpadding='14'>
 			</tr>
 			<tr>
 				<td><form method='post' action='testbuy.php' enctype='multipart/form-data' content = $n>
-				<input type='submit' name='buy' value='Купить билет'>
+				<input type='submit' name='buy' value='{$buy}'>
 				<input type='hidden' name='n' value='$str_nd'>
 				<input type='hidden' name='i' value='$img_src'>
 				</form>
