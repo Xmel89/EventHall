@@ -21,7 +21,10 @@ if (isset($_POST['ubmit'])){
 			echo "<div>Неверный логин или пароль</div>";	
 		}
 	}
-
+if (isset($_POST['logout'])){
+	unset ($_SESSION['name']);
+	session_destroy();
+}
 if (isset($_SESSION ['name'])){
 	header('location:adminroom.php');exit;
 }

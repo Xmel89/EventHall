@@ -12,9 +12,10 @@ if (isset($_SESSION['name'])){
 	$action='accept.php';
 	$required =NULL;
 }
-
+if (isset($_POST['buy'])){
 $e_name = $_POST['n'];
 $img_src = $_POST['i'];
+}
 $near_date = explode("///" , $e_name);
 $time= substr("$near_date[4]",0,5);
 $datetime=$near_date[3].' '.$near_date[4];
@@ -47,7 +48,7 @@ echo "
 				</td>
 			</tr>
 		</table>
-		<p align='center'>Выберите место и введите e-mail, а затем нажмите кнопку \"{$buy}\"</p>
+		<h3 align='center'>Выберите место и введите e-mail, а затем нажмите кнопку \"{$buy}\"</h3>
 		<div padding='auto'>
 		{$form}
 		
@@ -60,8 +61,7 @@ echo "
 			</tr>
 			</table>
 			</body>
-			</html>
-			";
+			</html>";
 try{
 	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
 	$pdo->exec('SET NAMES "utf8"');
@@ -75,8 +75,21 @@ $free = explode('/',$info_hall[0]);
 $engaged= explode('/',$info_hall[1]);
 $i=0;
 while ($i < sizeof($free)){
+	$b=false;
 	$place=$free[$i]%100;
 	$row=(integer)($free[$i]/ 100);
+	$herny = 'место '.'</br>'.$place;
+	if ($a){	
+		$key = array_search($free[$i]-0.1, $engaged);
+		if (is_int($key)){
+			$herny = $engaged[$key+1].'</br></br>'.$place;
+		}
+		$key = array_search($free[$i], $engaged);
+		if (is_int($key)){
+			$b=true;
+			$herny = $engaged[$key+1];
+		}
+	}
 	
 	if ((($free[$i]*10)%10)!=0) {//определяем тип мест
 		$sort='rip';
@@ -89,9 +102,10 @@ while ($i < sizeof($free)){
 	}
 	else {$sort='bitch';}
 	
-	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a[]' value='{$free[$i]}'> место {$place}</p></td>";
-	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> место {$place}</p></td>";
-	if ($a==true){
+	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a[]' value='{$free[$i]}'>{$herny}</p></td>";
+	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> {$herny}</p></td>";
+	$paid = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> {$herny}</p></td>";
+	if ($a){	
 		list ($ceel, $noceel)= array($noceel, $ceel);
 	}
 	if ($i==0 or $i%20==0){
@@ -103,16 +117,26 @@ while ($i < sizeof($free)){
 		echo"<tr>
 			<td>ряд {$row}</td>";
 		if ($sort=='rip') {
+			if ($b){
+				echo "{$paid}";
+			}
+			else{
 			echo "{$noceel}";
+			}	
 		}
 		else {
 		echo "{$ceel}";}}
 	else {
 	if ($sort=='rip') {
+		if ($b){
+				echo "{$paid}";
+			}
+			else{
 			echo "{$noceel}";
+			}	
 		}
 		else {
-		echo "{$ceel}";};
+		echo "{$ceel}";}
 		if (($i+1)%20==0){
 			echo"</tr>"; 
 			if ($i==299){
@@ -120,7 +144,17 @@ while ($i < sizeof($free)){
 				}
 			}
 		}
-		$i++;
-	};
-	var_dump ($engaged);
+	if ($sort == 'bitch'){
+		$bitch_fr++;
+	}
+	elseif ($sort == 'mid'){
+		$mid_fr++;
+	}
+	elseif ($sort == 'blat'){
+		$blat_fr++;
+	}
+	$i++;
+}
+return $bitch_fr;
+var_dump($bitch_fr,$mid_fr,$blat_fr)
 ?>

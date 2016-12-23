@@ -100,6 +100,8 @@ echo "<table cellpadding='14'>
 		</table>
 	</body>	
 </html>";
+include('processing.php/$c[0]');
+var_dump($c[0]);
 $i++;
 }}
 if ($no_ev==true){

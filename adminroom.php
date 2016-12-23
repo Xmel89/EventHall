@@ -1,6 +1,9 @@
 <?php
 session_start();
 if (isset($_SESSION['name'])){
+	echo "<form method='post' action='admin.php'>
+		<input type='submit' name='logout' value='Logout'>
+		</form>";
 	echo "
 <!DOCTYPE html>
 <html>
@@ -10,7 +13,8 @@ if (isset($_SESSION['name'])){
 		<title>Админка</title>
 	</head>
 	<body>
-		<a href = 'index.php'> Подтвердить оплату билета </a>
+		<a href = 'index.php'> Подтвердить оплату билета </a></br>
+		<a href = 'parol_change.php'> Поменять пароль </a>
 		<header>
 			<h1>Создание концерта</h1>
 		</header>
