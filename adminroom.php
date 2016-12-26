@@ -8,7 +8,7 @@ if (isset($_SESSION['name'])){
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset='utf-'>
+		<meta charset='utf-8'>
 		<link href='style.css' rel='stylesheet'>
 		<title>Админка</title>
 	</head>

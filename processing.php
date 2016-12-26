@@ -1,11 +1,35 @@
 <?php
-
-function proc_price($a){
-	$e_name = $a;
-	include 'testbuy.php';
-	$push=array($bitch_fr,$mid_fr,$blat_fr);
-	return $push;
+function proc_price($str){
+	$near_date = explode("///" , $str);
+	$datetime=$near_date[3].' '.$near_date[4];
+	try{
+		$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
+		$pdo->exec('SET NAMES "utf8"');
+		$pdo->query('SET NAMES "utf8"');
+	}
+	catch(PDOException $e){
+		echo "Возникла ошибка соединения с БД ".$e->getMessage();
+		exit();	
+	}
+	$query = $pdo->query("SELECT free FROM `ev_hall` WHERE datetime = '$datetime'");
+	$info_hall = $query->fetch();// получаем инфу о местах
+	$free = explode('/',$info_hall[0]);
+	foreach ($free as $value){
+		$row=(integer)($value/ 100);
+		if ($row<=5 and (($value*10)%10)==0){$blat_fr++;}
+		elseif ($row>5 and $row <=10 and (($value*10)%10)==0){$mid_fr++;}
+		elseif ($row>10 and (($value*10)%10)==0){$bitch_fr++;}
+	}
+	$inf_place = array(0, 0, 0);
+	if ($bitch_fr > 0){
+		$inf_place[0]= 1;
+	}
+	if ($mid_fr > 0){
+		$inf_place[1]= 1;
+	}
+	if ($blat_fr > 0){
+		$inf_place[2]= 1;
+	}
+	return $inf_place;
 }
-$c= 'proc_price';
-var_dump ($c("1///Вик///Цели Научиться возвращать рабочий каталог к любому предыдущему состоянию. Возвращаться назад в историю очень просто. Команда checkout скопирует любой снимок из репозитория в рабочий каталог. 01 Получите хэши предыдущих версий///2017-01-01///01:02:00///13///15///16"));
 ?>

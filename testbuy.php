@@ -27,7 +27,7 @@ echo "
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset='utf-'>
+		<meta charset='utf-8'>
 		<link href='style.css' rel='stylesheet'>
 		<title>Касса</title>
 	</head>
@@ -144,17 +144,6 @@ while ($i < sizeof($free)){
 				}
 			}
 		}
-	if ($sort == 'bitch'){
-		$bitch_fr++;
-	}
-	elseif ($sort == 'mid'){
-		$mid_fr++;
-	}
-	elseif ($sort == 'blat'){
-		$blat_fr++;
-	}
 	$i++;
 }
-return $bitch_fr;
-var_dump($bitch_fr,$mid_fr,$blat_fr)
 ?>

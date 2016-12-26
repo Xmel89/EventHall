@@ -33,7 +33,7 @@ else {
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset='utf-'>
+		<meta charset='utf-8'>
 		<link href='style.css' rel='stylesheet'>
 		<title>Вход</title>
 	</head>
