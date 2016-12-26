@@ -1,4 +1,11 @@
 <?php
+echo"<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title><?echo $h1;?></title>
+	</head>";
 session_start();
 if (isset($_SESSION['name'])){
 	echo "<a href='adminroom.php'>К созданию концерта</a></br>";
@@ -41,4 +48,5 @@ if (isset($_SESSION['name'])){
 		}
 	}
 }
+echo"</html>";
 ?>

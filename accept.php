@@ -1,4 +1,11 @@
 <?php
+echo"<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title><?echo $h1;?></title>
+	</head>";
 session_start();
 if (isset($_SESSION['name'])){
 echo"<a href='index.php'>На главную</a>";
@@ -48,4 +55,5 @@ if (isset ($_POST['f_submit'])){
 		echo "<h3>Места не подтверждены. Возможно вы промахнулись мимо чекбокса. Не расстраивайтесь и попробуйте еще раз.</h3>";
 	}
 }
+echo"</html>";
 ?>

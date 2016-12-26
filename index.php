@@ -76,7 +76,7 @@ else {
 		$img_src .='.jpg';
 		$time= substr("$near_date[time]",0,5);
 		$str_nd=implode ("///" , $near_date);
-		include 'processing.php';
+		include_once 'processing.php';
 		$inf=proc_price($str_nd);
 		$t_low=$near_date['t_low'];
 		$t_mid=$near_date['t_mid'];

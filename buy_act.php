@@ -1,4 +1,11 @@
 <?php
+echo"<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title><?echo $h1;?></title>
+	</head>";
 echo"<a href='index.php'>На главную</a>";
 if (isset ($_POST['f_submit'])){
 $datetime = $_POST['n'];
@@ -50,4 +57,5 @@ $true_time=date("Y-m-d {$H}:i");
 		echo "<h3>Места не забронированны. Возможно вы промахнулись мимо чекбокса или кто-то был порасторопнее вас. Не расстраивайтесь и попробуйте еще раз.</h3>";
 	}
 }
+echo"</html>";
 ?>
