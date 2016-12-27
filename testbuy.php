@@ -6,7 +6,6 @@ $buy='Забронировать';
 $a = false;
 $required = 'required';
 if (isset($_SESSION['name'])){
-	//echo "<form method='post' action='{$logout}'><input type='submit' name='logout' value='Logout'/></form>";
 	$buy='Подтвердить';
 	$a = true;
 	$action='accept.php';
@@ -52,7 +51,7 @@ echo "
 		<div padding='auto'>
 		{$form}
 		
-		<table cellpadding='5'>
+		<table cellpadding='10'>
 			<tr>
 			<td class='blat'>билет за {$near_date[5]} руб</td>
 			<td class='mid'>билет за {$near_date[6]} руб</td>
@@ -78,19 +77,19 @@ while ($i < sizeof($free)){
 	$b=false;
 	$place=$free[$i]%100;
 	$row=(integer)($free[$i]/ 100);
-	$herny = 'место '.'</br>'.$place;
+	$title = '';
 	if ($a){	
 		$key = array_search($free[$i]-0.1, $engaged);
 		if (is_int($key)){
-			$herny = $engaged[$key+1].'</br></br>'.$place;
+			$title = $engaged[$key+1];
 		}
 		$key = array_search($free[$i], $engaged);
 		if (is_int($key)){
 			$b=true;
-			$herny = $engaged[$key+1];
+			$title = $engaged[$key+1];
 		}
 	}
-	
+	$herny = "<p class= 'chk2' title='{$title}'>место</br> {$place} </p>";
 	if ((($free[$i]*10)%10)!=0) {//определяем тип мест
 		$sort='rip';
 	}
@@ -102,15 +101,15 @@ while ($i < sizeof($free)){
 	}
 	else {$sort='bitch';}
 	
-	$ceel = "<td class = '{$sort}'><p><input type='checkbox' name='a[]' value='{$free[$i]}'>{$herny}</p></td>";
-	$noceel = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> {$herny}</p></td>";
-	$paid = "<td class = '{$sort}'><p><input type='hidden' name='b' value='{$free[$i]}'> {$herny}</p></td>";
+	$ceel = "<td class = '{$sort}'><input type='checkbox'  class='chk' name='a[]' value='{$free[$i]}'>{$herny}</td>";
+	$noceel = "<td class = '{$sort}'></br><input type='hidden' name='b' value='{$free[$i]}' > {$herny}</td>";
+	$paid = "<td class = '{$sort}'></br><input type='hidden' name='b' value='{$free[$i]}' > {$herny}</td>";
 	if ($a){	
 		list ($ceel, $noceel)= array($noceel, $ceel);
 	}
 	if ($i==0 or $i%20==0){
 		if ($i==0){
-			echo "<table cellpadding='7'>
+			echo "<table cellpadding='5'>
 			<tr>
 			<td colspan='21'><h1>Сцена с артистами</h1></td>
 			</tr>";}

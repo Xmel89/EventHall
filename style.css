@@ -26,7 +26,7 @@ table {
 }
 
 td {
-    border: 2px solid lightgray;
+	border: 1px solid rgba(205, 211, 221, 0.62);
 }
 img{
 	margin: auto;
@@ -36,15 +36,21 @@ textarea {
 	height: 4px;
 }
 .blat{
+	vertical-align: top;
+	line-height: 0.7;
 	background: yellow;
 }
 .mid{
+	line-height: 0.7;
 	background: orange;
 }
 .bitch{
-	background: green;
+	line-height: 0.7;
+	background: rgba(39, 254, 4, 0.62);;
 }
 .rip{
+	vertical-align: top;
+	line-height: 0.7;
 	background: red;
 }
 .imgCenter{
@@ -52,4 +58,14 @@ textarea {
 	width: 600px; /* Ширина элемента в пикселах */
     padding: 20px 70px 10px 70px; /* Поля вокруг текста */
      /* Выравниваем по центру */
+}
+.chk{
+	height: 20px;
+	width: 20px;
+	margin: 0px 0px 0px 0px;
+}
+.chk2{
+	height: 20px;
+	width: 40px;
+	margin: 0px 0px 0px 0px;
 }
