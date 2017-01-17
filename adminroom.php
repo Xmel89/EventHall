@@ -1,10 +1,9 @@
 <?php
 session_start();
-if (isset($_SESSION['name'])){
-	echo "<form method='post' action='admin.php'>
-		<input type='submit' name='logout' value='Logout'>
-		</form>";
-	echo "
+if (isset($_SESSION['name'])) :?>
+	<form method='post' action='admin.php'>
+	<input type='submit' name='logout' value='Logout'>
+	</form>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -50,10 +49,7 @@ if (isset($_SESSION['name'])){
 		</table>
 		</form>
 	</body>
-</html>";
-}
-else {
-	echo "Страница недоступна ";
-}
-
-?>
+</html>
+<?else:?>
+	<p>Страница недоступна <p>
+<?endif;?>

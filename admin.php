@@ -1,35 +1,28 @@
 <?php
 session_start();
-$auth==false;
-    try{
-	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
-}catch(PDOException $e){
-	echo "Возникла ошибка соединения с БД ".$e->getMessage();
-	exit;
-}	
-if (isset($_POST['ubmit'])){
+$auth == false;
+include_once 'datebase.php';
+if (isset($_POST['ubmit'])) {
 	$e_login = $_POST['login'];
 	$e_password = md5($_POST['password']);
-
 	$query = $pdo->query("SELECT pass FROM auth WHERE login='$e_login'");
 	$user_pass = $query->fetch();
-		if (md5($user_pass[0])==$e_password) {
-			session_start();
-			$_SESSION ['name'] = $e_login;
-		}
-		else {
-			echo "<div>Неверный логин или пароль</div>";	
-		}
-	}
-if (isset($_POST['logout'])){
+	if (md5($user_pass[0]) == $e_password) :
+		session_start();
+		$_SESSION ['name'] = $e_login;
+	else :?>
+		<div>Неверный логин или пароль</div>	
+	<?endif;
+}
+if (isset($_POST['logout'])) {
 	unset ($_SESSION['name']);
 	session_destroy();
 }
-if (isset($_SESSION ['name'])){
-	header('location:adminroom.php');exit;
-}
-else {
-	echo "
+if (isset($_SESSION ['name'])) :
+	header('location:adminroom.php');
+	exit;
+else :?>
+	
 <!DOCTYPE html>
 <html>
 	<head>
@@ -49,7 +42,5 @@ else {
 			</form>
 		</div>
 	</body>
-</html>";
-}
-
-?>
+</html>
+<?endif;?>

@@ -2,25 +2,24 @@ h1 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
+
 h2 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
+
 h3 {
 	text-align : center;
 	font-family : "Comic Sans MS";
 }
-.p {
-	text-indent: 100px;
-	width: 600px;
-	padding: 0px 100px 0px 100px
-}
+
 div{
 	text-align : center;
 }
+
 table {
-	width: auto; /* Ширина таблицы */
-    border: 1px solid black; /* Рамка вокруг таблицы */
+	width: auto;
+    border: 1px solid black;
     margin: auto;
     border-collapse: collapse;
 }
@@ -28,44 +27,58 @@ table {
 td {
 	border: 1px solid rgba(205, 211, 221, 0.62);
 }
+
 img{
 	margin: auto;
 }
+
 textarea {
 	width: 4px;
 	height: 4px;
 }
-.blat{
+
+.high{
 	vertical-align: top;
 	line-height: 0.7;
 	background: yellow;
 }
+
 .mid{
 	line-height: 0.7;
 	background: orange;
 }
-.bitch{
+
+.low{
 	line-height: 0.7;
 	background: rgba(39, 254, 4, 0.62);;
 }
-.rip{
+
+.del{
 	vertical-align: top;
 	line-height: 0.7;
 	background: red;
 }
+
 .imgCenter{
 	text-align :center;
-	width: 600px; /* Ширина элемента в пикселах */
-    padding: 20px 70px 10px 70px; /* Поля вокруг текста */
-     /* Выравниваем по центру */
+	width: 600px; 
+    padding: 20px 70px 10px 70px; 
 }
+
 .chk{
 	height: 20px;
 	width: 20px;
 	margin: 0px 0px 0px 0px;
 }
+
 .chk2{
 	height: 20px;
 	width: 40px;
 	margin: 0px 0px 0px 0px;
+}
+
+.p{
+	text-indent: 100px;
+	width: 600px;
+	padding: 0px 100px 0px 100px
 }

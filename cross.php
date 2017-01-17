@@ -1,18 +1,17 @@
 <?php
-//script for delete reserve place
+#script for delete reserve place
 try{
 	$pdo = new PDO ("mysql:dbname=Hall;host=127.0.0.1:3306", "root", "");
 	$pdo->exec('SET NAMES "utf8"');
 	$pdo->query('SET NAMES "utf8"');
-}
-catch(PDOException $e){
-	echo "Âîçíèêëà îøèáêà ñîåäèíåíèÿ ñ ÁÄ ".$e->getMessage();
+} catch(PDOException $e) {
+	echo "Ð’Ð¾Ð·Ð½Ð¸ÐºÐ»Ð° Ð¾ÑˆÐ¸Ð±ÐºÐ° ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ Ñ Ð‘Ð” ".$e->getMessage();
 	exit();
-} 
+}
 $query ="SELECT * FROM `ev_hall` WHERE datetime>=CURRENT_DATE AND engaged!=0";
 $event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
 $i=0;
-$H = date('H')-2;// time rush real time on one hour, so two hours ago 
+$H = date('H')-2;	#time rush real time on one hour, so two hours ago 
 $time = date("Y-m-d {$H}:i");
 while($i<=count($event)){
 	$datetime = $event[$i][datetime];
@@ -21,7 +20,9 @@ while($i<=count($event)){
 	foreach($engaged as $key=>$value){
 		if (is_numeric($value)) {
 			if ($value*10%10==0){
-				if ($engaged[$key+2]<=$time){
+				$date_buy = new DateTime($engaged[$key+2]);
+				$date_close = new DateTime($time);
+				if ($date_buy <= $date_close){
 					$key_free = array_search($value+0.1, $free);
 					$free[$key_free]-=0.1;
 					unset($engaged[$key],$engaged[$key+1],$engaged[$key+2]);
@@ -35,4 +36,3 @@ while($i<=count($event)){
 	$free = implode('/',$free);
 	$request = $pdo->query("UPDATE ev_hall SET engaged='$engaged', free='$free' WHERE datetime='$datetime';");
 }
-?>
