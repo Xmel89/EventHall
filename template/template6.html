@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title>Вход</title>
+	</head>
+	<body>
+		<header>
+			<h1>Вход в Админку</h1>
+		</header>
+		<div align='center'>
+			<form method='post' action='admin.php'>
+				<input type='varchar' name='login' placeholder='Логин' required /></br>
+				<input type='password' name='password' placeholder='Пароль' required /></br>
+				<input type='submit' name='ubmit' value='Войти'/>
+			</form>
+			<? if ($incorrect) :?>
+				<div>Неверный логин или пароль</div>
+				<?endif;?>
+		</div>
+	</body>
+</html>

@@ -1,24 +1,27 @@
 <?php 
 include_once 'datebase.php';
-if (isset($_POST['relize'])) :
-	$e_date = $_POST['date'];
-	$e_time = $_POST['time'];
+if (isset($_POST['relize'])) {
+	$e_date = htmlspecialchars($_POST['date']);
+	$e_time = htmlspecialchars($_POST['time']);
 	$datetime = $e_date.$e_time;
 	$datetime = substr($datetime,0,12);
 	#check whether the file is loaded
-    if(is_uploaded_file($_FILES["downimg"]["tmp_name"])) :?>
-	    <p>file download succesfull</p>
-	<?move_uploaded_file($_FILES["downimg"]["tmp_name"], "img/".$datetime.'.jpg');
-    else :?>
-		<p>Ошибка загрузки файла</p>
-	<?endif;
+    include '/template/template7.html';
 	$e_nameevent = $_POST['name_event'];
 	$e_descrip = $_POST['description'];
 	$e_tlow = $_POST['ticket_low'];
 	$e_tmid = $_POST['ticket_mid'];
 	$e_thigh = $_POST['ticket_high'];
-	$create = $pdo->query("INSERT INTO `Hall`.`event` (`name`, `description`, `date`, `time`, `t_low`, `t_mid`, `t_high`) 
-	VALUES ('$e_nameevent', '$e_descrip', '$e_date', '$e_time', '$e_tlow', '$e_tmid', '$e_thigh');");
+	$create = $pdo->prepare("INSERT INTO `Hall`.`event` (`name`, `description`, `date`, `time`, `t_low`, `t_mid`, `t_high`) 
+	VALUES (:e_nameevent, :e_descrip, :e_date, :e_time, :e_tlow, :e_tmid, :e_thigh);");
+	$create->bindParam(':e_nameevent', $e_nameevent, PDO::PARAM_STR);
+	$create->bindParam(':e_descrip', $e_descrip, PDO::PARAM_STR);
+	$create->bindParam(':e_date', $e_date, PDO::PARAM_STR);
+	$create->bindParam(':e_time', $e_time, PDO::PARAM_STR);
+	$create->bindParam(':e_tlow', $e_tlow, PDO::PARAM_INT);
+	$create->bindParam(':e_tmid', $e_tmid, PDO::PARAM_INT);
+	$create->bindParam(':e_thigh', $e_thigh, PDO::PARAM_INT);
+	$create->execute();
 	#create hall in datebase
 	$count_row = 15;
 	$count_colum = 20;
@@ -34,12 +37,8 @@ if (isset($_POST['relize'])) :
 		$colum = 1;
 		$row++;
 	}
-$str_evhall = implode ('/' , $ev_hall);
-$primkey = $e_date.' '.$e_time.':00';
-$create = $pdo->query("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
-VALUES ('$primkey' , '$str_evhall');");
-	#var_dump($primkey);
-	#var_dump($str_evhall);
-?>
-<p>Концерт создан</p>
-<?endif;?>
+	$str_evhall = implode ('/' , $ev_hall);
+	$primkey = $e_date.' '.$e_time.':00';
+	$create = $pdo->query("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
+	VALUES ('$primkey' , '$str_evhall');");
+}

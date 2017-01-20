@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title>Касса</title>
+	</head>
+	<body>
+		<header>
+			<h1>Касса</h1>
+		</header>
+		<table>
+			<tr>
+				<td>
+					<div align='right'><a href='index.php'>на главную</a></div>
+					<h2><?=$near_date[1]?> </br><?=$near_date[3]?> в <?=$time?></h2>
+					<div class = 'imgCenter'>
+						<img src=<?=$img_src?> alt='картинка с изображением' width = '600' height='400'></img>
+					</div>
+						<p class='p'><?=$near_date[2]?></p>
+					
+				</td>
+			</tr>
+		</table>
+		<h3 align='center'>Выберите место и введите e-mail, а затем нажмите кнопку <?=$buy?>"</h3>
+		<div padding='auto'>
+		<?=$form?>
+		
+		<table cellpadding='10'>
+			<tr>
+			<td class='high'>билет за <?=$near_date[5]?> руб</td>
+			<td class='mid'>билет за <?=$near_date[6]?> руб</td>
+			<td class='low'>билет за <?=$near_date[7]?> руб</td>
+			<td class='del'>занятые места</td>
+			</tr>
+		</table>
+	</body>
+</html>

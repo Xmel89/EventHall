@@ -1,0 +1,7 @@
+<?if(is_uploaded_file($_FILES["downimg"]["tmp_name"])) :?>
+	<p>file download succesfull</p>
+	<?move_uploaded_file($_FILES["downimg"]["tmp_name"], "img/".$datetime.'.jpg');
+else :?>
+	<p>file download ERROR</p>
+<?endif;?>
+<h3>Концерт создан</h3>

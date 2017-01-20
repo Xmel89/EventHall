@@ -4,132 +4,78 @@ $buy = 'Купить билет';
 $h1 = 'Концертный зал';
 if (isset($_SESSION['name'])):
 	$buy = 'Выбрать';
-	$h1 = 'Выбери концерт:';?>
-	<a href='adminroom.php'>К созданию концерта</a>
-<?endif;?>
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='utf-8'>
-		<link href='style.css' rel='stylesheet'>
-		<title><?$h1;?></title>
-	</head>
-	<body>
-		<header>
-		<?
-		$H = date('H')-1;	#true hour
-		$true_time = date("Y-m-d {$H}:i e");?>
-		<?=$true_time?>
-			<h1><?=$h1?></h1>
-		</header>
-		
-<?php 
+	$h1 = 'Выбери концерт:';
+endif;		
+$H = date('H')-1;	#true hour
+$true_time = date("Y-m-d {$H}:i e");
 include 'datebase.php';
-$query = "SELECT * FROM `event` WHERE date>=CURRENT_DATE ORDER BY `event`.`date` ASC, `event`.`time` ASC";
-$near_event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
-$i = 0;
+$current_date = "'CURRENT_DATE'";
+$query = $pdo->prepare("SELECT * FROM `event` WHERE date>=? ORDER BY `event`.`date` ASC, `event`.`time` ASC");
+$query->bindParam(1, $current_date, PDO::PARAM_STR);
+$query->execute();
+$near_event = $query->fetchAll(PDO::FETCH_ASSOC);
 $size_neev = sizeof($near_event);
-$no_event="<h3>Карнавала не будет</br>
-			Все утонут в слезах</br>
-			Я моторы в гондолах</br>
-			Разбираю на части</br>
-
-			Подметаешь лепестки</br>
-			В иссохшихся площадях</br>
-			Пытаешь гладить на ощупь</br>
-			Ошарашенный страстью</br>
-
-			Но карнавала не будет</br>
-			Карнавала нет...</h3>";
-if ($size_neev == 0) :?>
-	<?=$no_event?>
-<?else : 
-	if ($size_neev > 5){
+$i = 0;
+include '/template/template1.html';
+if ($size_neev > 0) { 
+	if ($size_neev > 5) {
 		$mn = true;
 		$max_neev = $size_neev;
 		$size_neev = 5;
 	}
-	while($i < $size_neev){		
-		$near_date = $near_event[$i];
-		if ($near_date[date] == date("Y-m-d") and $near_date[time] < date("{$H}:i:s")){
-			if ($mn == true and $size_neev < max_neev){
-				$size_neev++;
-			}
-			$i++;
-			$no_ev = true;
-			continue;
+	while($i < $size_neev):		
+	$near_date = $near_event[$i];
+	if ($near_date[date] == date("Y-m-d") and $near_date[time] < date("{$H}:i:s")){
+		if ($mn == true and $size_neev < max_neev){
+			$size_neev++;
 		}
-		$no_ev = false;
-		$img_src = '/img/'.$near_date[date].$near_date[time];
-		$img_src = substr("$img_src",0,17);
-		$img_src .= '.jpg';
-		$time = substr("$near_date[time]", 0, 5);
-		$str_nd = implode ("///", $near_date);
-		include_once 'processing.php';
-		$inf = proc_price($str_nd);
-		$t_low = $near_date['t_low'];
-		$t_mid = $near_date['t_mid'];
-		$t_high = $near_date['t_high'];
-		$submit = 'submit';
-		if (in_array('1', $inf)){
-			if ($inf[0] == 1){
-				$of = $t_low;
-			}
-			elseif ($inf[1] == 1){
-				$of = $t_mid;
-			}
-			else {
-				$of = $t_high;
-			}
-			if ($inf [2] == 1){
-				$to = $t_high;
-			}
-			elseif ($inf[1] == 1){
-				$to = $t_mid;
-			}
-			else {
-				$to = $t_low;
-			}
-			$str_of = 'от '.$of.' руб';
-			$str_to = 'до '.$to.' руб';
+		$i++;
+		$no_ev = true;
+		continue;
+	}
+	$no_ev = false;
+	$img_src = '/img/'.$near_date[date].$near_date[time];
+	$img_src = substr("$img_src",0,17);
+	$img_src .= '.jpg';
+	$time = substr("$near_date[time]", 0, 5);
+	$str_nd = implode ("///", $near_date);
+	include_once 'processing.php';
+	$inf = proc_price($str_nd);
+	$t_low = $near_date['t_low'];
+	$t_mid = $near_date['t_mid'];
+	$t_high = $near_date['t_high'];
+	$submit = 'submit';
+	if (in_array('1', $inf)){
+		if ($inf[0] == 1){
+			$of = $t_low;
+		}
+		elseif ($inf[1] == 1){
+			$of = $t_mid;
 		}
 		else {
-			$submit = 'hidden';
-			$str_of = 'Билетов нет';
-			$str_to = '';
+			$of = $t_high;
 		}
-		?>
-				<table cellpadding='14'>
-					<tr>
-						<td rowspan='4'>
-							<h2><?=$near_date['name']?></h2>
-							<div class = 'imgCenter'><img src='<?=$img_src?>' alt='картинка с изображением' width = '300' height='200'></img></div>
-						</td>
-						<td><?=$near_date['date']?></br> в <?=$time?> </td>
-					</tr>
-					<tr>
-						<td>Цены на билет:</br><?=$str_of?></td>
-					</tr>
-					<tr>
-						<td><?=$str_to?></td>
-					</tr>
-					<tr>
-						<td>
-							<form method='post' action='testbuy.php' enctype='multipart/form-data'>
-							<input type='<?=$submit?>' name='buy' value='<?=$buy?>'>
-							<input type='hidden' name='n' value='<?=$str_nd?>'>
-							<input type='hidden' name='i' value='<?=$img_src?>'>
-							</form>
-						</td>
-					</tr>
-				</table>
-			</body>	
-		</html>
-		<?
-		$i++;
+		if ($inf [2] == 1){
+			$to = $t_high;
+		}
+		elseif ($inf[1] == 1){
+			$to = $t_mid;
+		}
+		else {
+			$to = $t_low;
+		}
+		$str_of = 'от '.$of.' руб';
+		$str_to = 'до '.$to.' руб';
 	}
-endif;
-if ($no_ev == true):?>
-	<?=$no_event?>
-<?endif;?>
+	else {
+		$submit = 'hidden';
+		$str_of = 'Билетов нет';
+		$str_to = '';
+	}
+	include '/template/template2.html';
+	$i++;
+	endwhile;
+}
+elseif ($no_ev == true || $size_neev == 0){
+	include '/template/template3.html';
+}	

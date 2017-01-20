@@ -8,9 +8,13 @@ try{
 	echo "Возникла ошибка соединения с БД ".$e->getMessage();
 	exit();
 }
-$query ="SELECT * FROM `ev_hall` WHERE datetime>=CURRENT_DATE AND engaged!=0";
-$event = $pdo->query($query)->fetchAll(PDO::FETCH_ASSOC);
-$i=0;
+$current_date = "'CURRENT_DATE'";
+$i = 0;
+$query = $pdo->prepare("SELECT * FROM `ev_hall` WHERE datetime>=? AND engaged!=?");
+$query->bindParam(1, $current_date, PDO::PARAM_STR);
+$query->bindParam(2, $i, PDO::PARAM_INT);
+$query->execute();
+$event = $query->fetchAll(PDO::FETCH_ASSOC);
 $H = date('H')-2;	#time rush real time on one hour, so two hours ago 
 $time = date("Y-m-d {$H}:i");
 while($i<=count($event)){

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'>
+		<link href='style.css' rel='stylesheet'>
+		<title><?=$h1?></title>
+	</head>
+	<body>
+		<header>
+		<?=$true_time?>
+			<h1><?=$h1?></h1>
+		</header>
+<?if ($buy == 'Выбрать'):?>
+	<a href='adminroom.php'>К созданию концерта</a>
+<?endif;?>

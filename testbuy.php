@@ -11,8 +11,8 @@ if (isset($_SESSION['name'])) {
 	$required = NULL;
 }
 if (isset($_POST['buy'])){
-	$e_name = $_POST['n'];
-	$img_src = $_POST['i'];
+	$e_name = htmlspecialchars($_POST['n']);
+	$img_src = htmlspecialchars($_POST['i']);
 }
 $near_date = explode("///" , $e_name);
 $time = substr("$near_date[4]",0,5);
@@ -21,48 +21,11 @@ $form = "<form method='post' action='{$action}'>
 <input type='email' name='e' placeholder='Ваш e-mail' {$required} >
 <input type='submit' name='f_submit' value='{$buy}'/>
 <input type='hidden' name='n' value='{$datetime}'>";
-?>
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='utf-8'>
-		<link href='style.css' rel='stylesheet'>
-		<title>Касса</title>
-	</head>
-	<body>
-		<header>
-			<h1>Касса</h1>
-		</header>
-		<table>
-			<tr>
-				<td>
-					<div align='right'><a href='index.php'>на главную</a></div>
-					<h2><?=$near_date[1]?> </br><?=$near_date[3]?> в <?=$time?></h2>
-					<div class = 'imgCenter'>
-						<img src=<?=$img_src?> alt='картинка с изображением' width = '600' height='400'></img>
-					</div>
-						<p class='p'><?=$near_date[2]?></p>
-					
-				</td>
-			</tr>
-		</table>
-		<h3 align='center'>Выберите место и введите e-mail, а затем нажмите кнопку <?=$buy?>"</h3>
-		<div padding='auto'>
-		<?=$form?>
-		
-		<table cellpadding='10'>
-			<tr>
-			<td class='high'>билет за <?=$near_date[5]?> руб</td>
-			<td class='mid'>билет за <?=$near_date[6]?> руб</td>
-			<td class='low'>билет за <?=$near_date[7]?> руб</td>
-			<td class='del'>занятые места</td>
-			</tr>
-			</table>
-			</body>
-			</html>
-<?
+include '/template/template9.html';
 include 'datebase.php';
-$query = $pdo->query("SELECT free, engaged FROM `ev_hall` WHERE datetime = '$datetime'");
+$query = $pdo->prepare("SELECT free, engaged FROM `ev_hall` WHERE datetime=?");
+$query->bindParam(1, $datetime, PDO::PARAM_STR);
+$query->execute();
 $info_hall = $query->fetch(); 
 $free = explode('/',$info_hall[0]);
 $engaged = explode('/',$info_hall[1]);
@@ -98,42 +61,8 @@ while ($i < sizeof($free)) {
 	$paid = "<td class = '{$sort}'></br><input type='hidden' name='b' value='{$free[$i]}' > {$p_teg}</td>";
 	if ($a) {	
 		list ($ceel, $noceel) = array($noceel, $ceel);
-	}?>
-	<?if ($i == 0 or $i%20 == 0):?>
-		<?if ($i == 0):?>
-			<table cellpadding='5'>
-			<tr>
-			<td colspan='21'><h1>Сцена с артистами</h1></td>
-			</tr>
-		<?endif;?>
-		<tr>
-		<td>ряд <?=$row?></td>
-		<?if ($sort == 'del'):?>
-			<?if($b):?>
-				<?=$paid?>
-			<?else:?>
-				<?=$noceel?>
-			<?endif;?>
-		<?else:?>
-			<?=$ceel?>
-		<?endif;?>
-	<?else:?>
-		<?if ($sort == 'del'):?> 
-			<?if ($b):?>
-				<?=$paid?>
-			<?else:?>
-				<?=$noceel?>
-			<?endif;?>
-		<?else:?>
-			<?=$ceel?>
-		<?endif;?>
-		<?if (($i+1)%20 == 0):?>
-			</tr>
-			<?if ($i == 299):		# 299 - count place in event hall, counting from zero?>
-				</table></form></div>
-			<?endif;?>
-		<?endif;?>
-	<?endif;?>
-	<?$i++;
+	}
+	include '/template/template10.html';
+	$i++;
 }
 ?>

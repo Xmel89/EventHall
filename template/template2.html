@@ -1,0 +1,25 @@
+<table cellpadding='14'>
+	<tr>
+		<td rowspan='4'>
+			<h2><?=htmlspecialchars($near_date['name'])?></h2>
+			<div class = 'imgCenter'><img src='<?=$img_src?>' alt='картинка с изображением' width = '300' height='200'></img></div>
+		</td>
+		<td><?=$near_date['date']?></br> в <?=$time?> </td>
+	</tr>
+	<tr>
+		<td>Цены на билет:</br><?=$str_of?></td>
+	</tr>
+	<tr>
+		<td><?=$str_to?></td>
+	</tr>
+	<tr>
+		<td>
+			<form method='post' action='testbuy.php' enctype='multipart/form-data'>
+			<input type='<?=$submit?>' name='buy' value='<?=$buy?>'>
+			<input type='hidden' name='n' value='<?=$str_nd?>'>
+			<input type='hidden' name='i' value='<?=$img_src?>'>
+			</form>
+		</td>
+	</tr>
+</table>
+

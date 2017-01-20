@@ -3,7 +3,9 @@ function proc_price($str) { 			#This function get information about place
 	$near_date = explode("///" , $str);
 	$datetime = $near_date[3].' '.$near_date[4];
 	include 'datebase.php';
-	$query = $pdo->query("SELECT free FROM `ev_hall` WHERE datetime = '$datetime'");
+	$query = $pdo->prepare("SELECT free FROM `ev_hall` WHERE datetime=?");
+	$query->bindParam(1, $datetime, PDO::PARAM_STR);
+	$query->execute();
 	$info_hall = $query->fetch();
 	$free = explode('/',$info_hall[0]);
 	foreach ($free as $value){

@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset='utf-8'>
-		<link href='style.css' rel='stylesheet'>
-		<title><?=$h1?></title>
-	</head>
-<a href='index.php'>На главную</a>
-
 <?php
-if (isset ($_POST['f_submit'])):
-$datetime = $_POST['n'];
-$accept_pl=$_POST['a'];
-$email = $_POST['e'];
-$count_pl=count($accept_pl);
+if (isset ($_POST['f_submit'])){
+$datetime = htmlspecialchars( $_POST['n']);
+$accept_pl = $_POST['a'];
+$email = htmlspecialchars($_POST['e']);
+$count_pl = count($accept_pl);
 $time = date("H:i");
 $H = date('H')-1;			#true hour
 $true_time=date("Y-m-d {$H}:i");
-	if ($count_pl > 0 & $count_pl <= 5):
+$h1 = 'Покупка билета';
+include '/template/template4.html';
+	if ($count_pl > 0 & $count_pl <= 5){
 		include_once'datebase.php';
-		$query = $pdo->query("SELECT free, engaged FROM `ev_hall` WHERE datetime = '$datetime'");
+		$query = $pdo->prepare("SELECT free, engaged FROM `ev_hall` WHERE datetime=?");
+		$query->bindParam(1, $datetime, PDO::PARAM_STR);
+		$query->execute();
 		$info_hall = $query->fetch();			#get information about place
 		$free = explode('/',$info_hall[0]);
 		$engaged = $info_hall[1];
@@ -38,15 +33,8 @@ $true_time=date("Y-m-d {$H}:i");
 			$engaged = implode('/',$engaged);
 			$free = implode('/',$free);
 			$request = $pdo->query("UPDATE ev_hall SET free='$free' , engaged='$engaged' WHERE datetime='$datetime';");
-		
 		}
-		if ($request):?>
-		<h3>Вы успешно забронировали <?=$count_pl?> мест(о). На ваш e-mail отправлена ссылка для оплаты. Пожалуйста, не забудьте оплатить до <?=$time?></h3>
-		<?endif?>
-	<?elseif ($count_pl > 5) :?>
-		<h3>Места не забронированны. Все хотят послушать хороший концерт, поэтому выбирайте не более 5 мест</h3>
-	<?else :?>
-		<h3>Места не забронированны. Возможно вы промахнулись мимо чекбокса или кто-то был порасторопнее вас. Не расстраивайтесь и попробуйте еще раз.</h3>
-	<?endif;?>
-<?endif;?>
-</html>
+	}
+	include '/template/template5.html';
+}
+?>
