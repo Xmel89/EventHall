@@ -1,10 +1,11 @@
 <?php 
-$array = file('conf');
-$dbname = trim($array[0]);
-$host =  trim($array[1]);
-$user = trim($array[2]);
-$pass = trim($array[3]);
-try{
+include_once("conf.php");
+$conf = conf();
+$dbname = trim($conf['dateBaseName']);
+$host =  trim($conf['host']);
+$user = trim($conf['db user']);
+$pass = trim($conf['db password']);
+try {
 	$pdo = new PDO ("mysql:dbname=$dbname;host=$host", $user, $pass);
 	$pdo->exec('SET NAMES "utf8"');
 	$pdo->query('SET NAMES "utf8"');
@@ -13,5 +14,5 @@ try{
 	echo "Возникла ошибка соединения с БД ".$e->getMessage();
     exit();
 }
-unset ($array, $dbname, $host, $user, $pass);
+unset ($conf, $dbname, $host, $user, $pass);
 ?>

@@ -1,5 +1,5 @@
 <?php
-if (isset ($_POST['f_submit'])) :
+if (isset ($_POST['f_submit'])) {
 	$datetime = htmlspecialchars($_POST['n']);
 	$accept_pl = $_POST['a'];
 	$email = htmlspecialchars($_POST['e']);
@@ -8,8 +8,8 @@ if (isset ($_POST['f_submit'])) :
 	$H = date('H')-1;			#true hour
 	$true_time = date("Y-m-d {$H}:i");
 	$h1 = 'Подтверждение оплаты';
-	include '/template/template4.html';
-	if ($count_pl > 0){
+	include 'template/template4.html';
+	if ($count_pl > 0) {
 		include_once 'datebase.php';
 		$query = $pdo->prepare("SELECT free, engaged FROM `ev_hall` WHERE datetime=?");
 		$query->bindParam(1, $datetime, PDO::PARAM_STR);
@@ -17,7 +17,7 @@ if (isset ($_POST['f_submit'])) :
 		$info_hall = $query->fetch();			#get information about place
 		$free = explode('/',$info_hall[0]);
 		$engaged = $info_hall[1];
-		if (empty($engaged)){
+		if (empty($engaged)) {
 			$engaged = array();
 		} else {
 			$engaged = explode('/',$info_hall[1]);
@@ -32,5 +32,6 @@ if (isset ($_POST['f_submit'])) :
 		$request->bindParam(2, $datetime, PDO::PARAM_STR);
 		$request->execute();
 	}
-	include '/template/template5.html';
-endif;?>
+	include 'template/template5.html';
+}
+

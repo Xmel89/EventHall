@@ -6,7 +6,7 @@ if (isset($_POST['relize'])) {
 	$datetime = $e_date.$e_time;
 	$datetime = substr($datetime,0,12);
 	#check whether the file is loaded
-    include '/template/template7.html';
+    include 'template/template7.html';
 	$e_nameevent = $_POST['name_event'];
 	$e_descrip = $_POST['description'];
 	$e_tlow = $_POST['ticket_low'];
@@ -39,6 +39,9 @@ if (isset($_POST['relize'])) {
 	}
 	$str_evhall = implode ('/' , $ev_hall);
 	$primkey = $e_date.' '.$e_time.':00';
-	$create = $pdo->query("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
-	VALUES ('$primkey' , '$str_evhall');");
+	$createhall = $pdo->prepare("INSERT INTO `Hall`.`ev_hall` (`datetime`, `free`) 
+	VALUES (':primkey' , ':str_evhall');");
+	$createhall->bindParam(':primkey', $primkey, PDO::PARAM_STR);
+	$createhall->bindParam(':str_evhall', $str_evhall, PDO::PARAM_STR);
+	$createhall->execute();
 }

@@ -8,14 +8,14 @@ function proc_price($str) { 			#This function get information about place
 	$query->execute();
 	$info_hall = $query->fetch();
 	$free = explode('/',$info_hall[0]);
-	foreach ($free as $value){
+	foreach ($free as $value) {
 		$count_in_class = 5;
 		$row = (integer)($value/ 100);
 		if ($row <= $count_in_class and (($value * 10) % 10) == 0) {
 			$low_fr++;
 		} elseif ($row > $count_in_class  and $row <= $count_in_class*2 and (($value * 10) % 10) == 0) {
 			$mid_fr++;		#for mid price group
-		} elseif ($row > $count_in_class*2 and (($value * 10) % 10) == 0){
+		} elseif ($row > $count_in_class*2 and (($value * 10) % 10) == 0) {
 			$high_fr++;
 		}		#for high price group
 	}
